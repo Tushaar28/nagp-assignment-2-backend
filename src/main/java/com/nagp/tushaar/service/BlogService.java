@@ -29,7 +29,11 @@ public class BlogService {
 			String description = body.get("description");
 			Blog blog = new Blog();
 			blog.setId(id);
-			blog.setDate(new Date());
+			Blog prevBlog = repository.findById(id).orElse(null);
+			if (prevBlog == null)
+				blog.setDate(new Date());
+			else
+				blog.setDate(prevBlog.getDate());
 			blog.setDescription(description);
 			blog.setTitle(title);
 			repository.save(blog);
